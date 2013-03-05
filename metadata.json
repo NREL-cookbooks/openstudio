@@ -1,0 +1,29 @@
+{
+  "name": "openstudio",
+  "description": "Installs/Configures OpenStudio",
+  "long_description": "OpenStudio installation cookbook",
+  "maintainer": "NREL",
+  "maintainer_email": "nicholas.long@nrel.gov",
+  "license": "LGPL",
+  "platforms": {
+  },
+  "dependencies": {
+  },
+  "recommendations": {
+  },
+  "suggestions": {
+  },
+  "conflicting": {
+  },
+  "providing": {
+  },
+  "replacing": {
+  },
+  "attributes": {
+  },
+  "groupings": {
+  },
+  "recipes": {
+  },
+  "version": "0.1.0"
+}
