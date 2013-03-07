@@ -1,4 +1,2 @@
-export OPENSTUDIO_ROOT=/opt/OpenStudio-<%= node[:openstudio][:version] %>-Linux
-pathmunge /usr/local/lib
-pathmunge $OPENSTUDIO_ROOT/lib
-pathmunge $OPENSTUDIO_ROOT/lib/site_ruby/1.8/lib
+export OPENSTUDIO_ROOT=/usr/local
+export PATH=$OPENSTUDIO_ROOT/lib/site_ruby/1.8:$PATH
