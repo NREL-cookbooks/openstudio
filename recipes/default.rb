@@ -41,17 +41,16 @@ if platform_family?("debian")
   remote_file "#{Chef::Config[:file_cache_path]}/OpenStudio-#{node[:openstudio][:version]}-Linux.deb" do
     source "http://developer.nrel.gov/downloads/buildings/OpenStudio-#{node[:openstudio][:version]}-Linux.deb"
     mode 00755
-    checksum "89c6874574d84f5e636a1b2a6690737ca48ed383090646f97890b9eadd0944fa"
+    #checksum "89c6874574d84f5e636a1b2a6690737ca48ed383090646f97890b9eadd0944fa"
   end
 
   # right now just use the version the is in the directory
-  bash "install_openstudio (this may take awhile because of dependencies)" do
+  bash "install_openstudio" do
     #install the non x86 version
     cwd Chef::Config[:file_cache_path]
 
     code <<-EOH
-      cd /vagrant
-      dpkg -i OpenStudio-0.9.3.10197-Linux.deb
+      dpkg -i OpenStudio-#{node[:openstudio][:version]}-Linux.deb
       apt-get -f install -y
       #install known dependencies
       apt-get install libgl1-mesa-glx -y
