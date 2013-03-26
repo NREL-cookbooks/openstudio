@@ -7,6 +7,7 @@
 # If working with RHEL/CENTOS then you need to install specific versions of boost and perhaps
 # other dependencies; however these dependencies are not available by packages and need to be compiled.
 
+
 if platform_family?("rhel")
   #download and build boost
   remote_file "#{Chef::Config[:file_cache_path]}/boost_1_46_1.tar.gz" do
@@ -18,13 +19,13 @@ if platform_family?("rhel")
   bash "install_boost_1.46.1 -- this may take some time" do
     cwd Chef::Config[:file_cache_path]
     code <<-EOH
-    tar -xzf boost_1_46_1.tar.gz
-    rm boost_1_46_1.tar.gz
-    cd boost_1_46_1
-    ./bootstrap.sh
-    ./bjam
-    ./bjam install
-    cd ..
+      tar -xzf boost_1_46_1.tar.gz
+      rm boost_1_46_1.tar.gz
+      cd boost_1_46_1
+      ./bootstrap.sh
+      ./bjam
+      ./bjam install
+      cd ..
 
     EOH
 
@@ -37,11 +38,16 @@ end
 # Install OpenStudio
 
 if platform_family?("debian")
-  # handle the differing platforms
-  remote_file "#{Chef::Config[:file_cache_path]}/OpenStudio-#{node[:openstudio][:version]}-Linux.deb" do
-    source "http://developer.nrel.gov/downloads/buildings/OpenStudio-#{node[:openstudio][:version]}-Linux.deb"
+  file_path = "#{Chef::Config[:file_cache_path]}/OpenStudio-#{node[:openstudio][:version]}-Linux.deb"
+  src_path = "http://developer.nrel.gov/downloads/buildings/OpenStudio-#{node[:openstudio][:version]}-Linux.deb"
+  chk_sum = node[:openstudio][:checksum]
+
+  remote_file file_path do
+    source src_path
+    #checksum chk_sum
     mode 00755
-    #checksum "89c6874574d84f5e636a1b2a6690737ca48ed383090646f97890b9eadd0944fa"
+
+    action :create_if_missing
   end
 
   # right now just use the version the is in the directory
@@ -51,6 +57,7 @@ if platform_family?("debian")
 
     code <<-EOH
       dpkg -i OpenStudio-#{node[:openstudio][:version]}-Linux.deb
+      apt-get update
       apt-get -f install -y
       #install known dependencies
       apt-get install libgl1-mesa-glx -y
