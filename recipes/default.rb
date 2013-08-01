@@ -8,9 +8,10 @@
 # other dependencies; however these dependencies are not available by packages and need to be compiled.
 
 if platform_family?("debian")
-  file_path = "#{Chef::Config[:file_cache_path]}/OpenStudio-#{node[:openstudio][:version]}-Linux.deb"
-  src_path = "http://developer.nrel.gov/downloads/buildings/OpenStudio-#{node[:openstudio][:version]}-Linux.deb"
-  chk_sum = node[:openstudio][:checksum]
+  filename = "OpenStudio-#{node[:openstudio][:version]}-#{node[:openstudio][:platform]}.deb"
+  file_path = "#{Chef::Config[:file_cache_path]}/#{filename}"
+  src_path = "#{node[:openstudio][:download_url]}/#{filename}"
+  #chk_sum = node[:openstudio][:checksum]
 
   remote_file file_path do
     source src_path
@@ -26,7 +27,7 @@ if platform_family?("debian")
     cwd Chef::Config[:file_cache_path]
 
     code <<-EOH
-      dpkg -i OpenStudio-#{node[:openstudio][:version]}-Linux.deb
+      dpkg -i #{filename}
       apt-get update
       apt-get -f install -y
       #install known dependencies
