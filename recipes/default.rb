@@ -35,15 +35,15 @@ if platform_family?("debian")
 
       echo "mapping x86_64 bit to lib name to allow for openstudio to load correctly"
       cd /usr/local/lib/site_ruby/1.8/
-      mv x86_64-linux lib
+      ln -s x86_64-linux lib
     EOH
 
     not_if { ::File.exists?("/usr/local/lib/site_ruby/1.8/openstudio.rb") }
   end
 
-  #template "/etc/profile.d/openstudio.sh" do
-  #  source "openstudio.sh.erb"
-  #  mode 00644
-  #end
+  template "/etc/profile.d/openstudio.sh" do
+    source "openstudio.sh.erb"
+    mode 00644
+  end
 end
 
