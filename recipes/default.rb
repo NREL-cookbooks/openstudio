@@ -34,11 +34,11 @@ if platform_family?("debian")
       apt-get install libgl1-mesa-glx -y
 
       echo "mapping x86_64 bit to lib name to allow for openstudio to load correctly"
-      cd /usr/local/lib/site_ruby/1.8/
+      cd /usr/local/lib/ruby/site_ruby/2.0.0/
       ln -s x86_64-linux lib
     EOH
 
-    not_if { ::File.exists?("/usr/local/lib/site_ruby/1.8/openstudio.rb") }
+    not_if { ::File.exists?("/usr/local/lib/ruby/site_ruby/2.0.0/openstudio.rb") }
   end
 
   template "/etc/profile.d/openstudio.sh" do
