@@ -11,14 +11,12 @@ if platform_family?("debian")
   filename = "OpenStudio-#{node[:openstudio][:version]}-#{node[:openstudio][:platform]}.deb"
   file_path = "#{Chef::Config[:file_cache_path]}/#{filename}"
   src_path = "#{node[:openstudio][:download_url]}/#{filename}"
-  #chk_sum = node[:openstudio][:checksum]
+  chk_sum = node[:openstudio][:checksum]
 
   remote_file file_path do
     source src_path
-    #checksum chk_sum
+    checksum chk_sum
     mode 00755
-
-    action :create_if_missing
   end
 
   # right now just use the version the is in the directory
