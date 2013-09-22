@@ -17,6 +17,8 @@ if platform_family?("debian")
     source src_path
     checksum chk_sum
     mode 00755
+
+    action :create_if_missing
   end
 
   # right now just use the version the is in the directory
