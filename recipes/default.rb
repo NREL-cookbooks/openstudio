@@ -38,7 +38,19 @@ if platform_family?("debian")
       ln -sf x86_64-linux lib
     EOH
 
-    not_if { ::File.exists?("/usr/local/lib/ruby/site_ruby/2.0.0/openstudio.rb") }
+    version_installed = false
+    if File.exists?("/usr/local/lib/ruby/site_ruby/2.0.0/openstudio.rb")
+      # check the version
+      version = `ruby -I /usr/local/lib/ruby/site_ruby/2.0.0/ -e "require 'openstudio'" -e "puts OpenStudio::Model::Model.new.getVersion.versionIdentifier"`.chomp
+      Chef::Log.info("Current version of OpenStudio is #{version} and requesting #{node[:openstudio][:version]}")
+      if node[:openstudio][:version].include?(version)
+        version_installed = true
+      end
+    end
+
+    Chef::Log.info("OpenStudio version installed is set to #{version_installed}")
+
+    not_if { version_installed }
   end
 
   template "/etc/profile.d/openstudio.sh" do
