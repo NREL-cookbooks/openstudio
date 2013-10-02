@@ -1,4 +1,4 @@
-#
+  #
 # Cookbook Name:: openstudio
 # Recipe:: default
 #
@@ -41,7 +41,7 @@ if platform_family?("debian")
     version_installed = false
     if File.exists?("/usr/local/lib/ruby/site_ruby/2.0.0/openstudio.rb")
       # check the version
-      version = `ruby -I /usr/local/lib/ruby/site_ruby/2.0.0/ -e "require 'openstudio'" -e "puts OpenStudio::Model::Model.new.getVersion.versionIdentifier"`.chomp
+      version = `ruby -I /usr/local/lib/ruby/site_ruby/2.0.0/ -e "require 'openstudio'" -e "puts OpenStudio::openStudioLongVersion"`.chomp
       Chef::Log.info("Current version of OpenStudio is #{version} and requesting #{node[:openstudio][:version]}")
       if node[:openstudio][:version].include?(version)
         version_installed = true
