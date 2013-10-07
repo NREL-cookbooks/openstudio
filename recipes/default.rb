@@ -8,9 +8,9 @@
 # other dependencies; however these dependencies are not available by packages and need to be compiled.
 
 if platform_family?("debian")
-  filename = "OpenStudio-#{node[:openstudio][:version]}-#{node[:openstudio][:platform]}.deb"
+  filename = "OpenStudio-#{node[:openstudio][:version]}.#{node[:openstudio][:version_revision]}-#{node[:openstudio][:platform]}.deb"
   file_path = "#{Chef::Config[:file_cache_path]}/#{filename}"
-  src_path = "#{node[:openstudio][:download_url]}/#{filename}"
+  src_path = "#{node[:openstudio][:download_url]}/#{node[:openstudio][:version]}/#{filename}"
   chk_sum = node[:openstudio][:checksum]
 
   remote_file file_path do
@@ -42,8 +42,8 @@ if platform_family?("debian")
     if File.exists?("/usr/local/lib/ruby/site_ruby/2.0.0/openstudio.rb")
       # check the version
       version = `ruby -I /usr/local/lib/ruby/site_ruby/2.0.0/ -e "require 'openstudio'" -e "puts OpenStudio::openStudioLongVersion"`.chomp
-      Chef::Log.info("Current version of OpenStudio is #{version} and requesting #{node[:openstudio][:version]}")
-      if node[:openstudio][:version].include?(version)
+      Chef::Log.info("Current version of OpenStudio is #{version} and requesting #{node[:openstudio][:version]}.#{node[:openstudio][:version_revision]}")
+      if "#{node[:openstudio][:version]}.#{node[:openstudio][:version_revision]}".include?(version)
         version_installed = true
       end
     end
