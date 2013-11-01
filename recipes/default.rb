@@ -18,7 +18,8 @@ if platform_family?("debian")
     checksum chk_sum
     mode 00755
 
-    action :create_if_missing
+    already_downloaded = File.exists?(file_path) && File.size?(file_path)
+    not_if { already_downloaded }
   end
 
   # right now just use the version the is in the directory
