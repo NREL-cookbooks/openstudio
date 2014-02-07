@@ -4,6 +4,7 @@
 #
 # Copyright 2013, Alliance for Sustainable Energy
 
+include_recipe "energyplus"
 include_recipe "openstudio::install_#{node[:openstudio][:install_method]}"
 
 if node[:openstudio][:add_library_to_path]

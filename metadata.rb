@@ -11,3 +11,7 @@ depends "cmake"
 depends "apt"
 depends "yum"
 depends "build-essential"
+depends "gdebi"
+
+depends "rbenv"
+depends "ruby_build"

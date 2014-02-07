@@ -31,11 +31,34 @@ Vagrant.configure("2") do |config|
   config.vm.provision :chef_solo do |chef|
     chef.cookbooks_path = "../"
 
+    chef.add_recipe("recipe[ruby_build]")
+    chef.add_recipe("recipe[rbenv::system]")
     chef.add_recipe("openstudio::default")
-    #chef.json = {
-    #    :openstudio => {
-    #    }
-    #}
+    chef.json = {
+        :rbenv => {
+            :upgrade => true,
+            :rubies => [
+                {
+                    :name => '2.0.0-p353',
+                    :environment => {
+                        'RUBY_CONFIGURE_OPTS' => '--enable-shared', # needs to be set for openstudio linking
+                        'CONFIGURE_OPTS' => '--disable-install-doc'
+                    }
+                }
+            ],
+            :no_rdoc_ri => true,
+            :global => "2.0.0-p353",
+            :gems => {
+                "2.0.0-p353" => [
+                    {
+                        :name => "bundler",
+                        :version => "1.3.5"
+                    }
+                ]
+            }
+        }
+    }
+
   end
 end
 
