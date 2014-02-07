@@ -31,6 +31,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision :chef_solo do |chef|
     chef.cookbooks_path = "../"
 
+    chef.add_recipe("recipe[apt]")
     chef.add_recipe("recipe[ruby_build]")
     chef.add_recipe("recipe[rbenv::system]")
     chef.add_recipe("openstudio::default")
