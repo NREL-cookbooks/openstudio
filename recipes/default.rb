@@ -13,5 +13,3 @@ if node[:openstudio][:add_library_to_path]
     mode 00644
   end
 end
-
-

@@ -13,7 +13,6 @@ case node['platform_family']
     include_recipe "yum"
 end
 
-
 if platform_family?("debian")
   # get some high level variables
   Chef::Log.info "Installing OpenStudio via Installer"
@@ -48,7 +47,6 @@ if platform_family?("debian")
     mode 00755
     action :nothing
 
-    #notifies :install, "package[openstudio]", :immediately
     already_downloaded = File.exists?(file_path) && File.size?(file_path) > 0
     Chef::Log.info "OpenStudio already_downloaded set to #{already_downloaded}"
     not_if { already_downloaded }
@@ -74,7 +72,6 @@ else
   Chef::Log.warn("Installing from a #{node['platform_family']} installer is not yet not supported by this cookbook")
   # If working with RHEL/CENTOS then you need to install specific versions of boost and perhaps
   # other dependencies; however these dependencies are not available by packages and need to be compiled.
-
 end
 
 

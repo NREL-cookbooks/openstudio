@@ -1,7 +1,5 @@
 default[:openstudio][:install_method] = "installer"
 default[:openstudio][:add_library_to_path] = true
-#default[:openstudio]['install_repo']   = true
-
 
 # default versions
 default[:openstudio][:installer][:version] = "1.2.3"
