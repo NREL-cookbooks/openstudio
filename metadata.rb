@@ -9,6 +9,7 @@ version          '0.1.2'
 depends "energyplus"
 depends "cmake"
 depends "apt"
+depends "ark"
 depends "yum"
 depends "build-essential"
 depends "gdebi"
