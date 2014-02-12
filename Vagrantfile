@@ -20,7 +20,7 @@ Vagrant.configure("2") do |config|
   config.omnibus.chef_version = :latest
 
   config.vm.provider :virtualbox do |vb|
-    vb.customize ["modifyvm", :id, "--memory", 1024, "--cpus", 2]
+    vb.customize ["modifyvm", :id, "--memory", 4096, "--cpus", 4]
 
     # Disable DNS proxy.
     # Causes slowness: https://github.com/rubygems/rubygems/issues/513

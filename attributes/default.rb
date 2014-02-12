@@ -12,4 +12,6 @@ default[:openstudio][:installer][:download_url] = "http://developer.nrel.gov/dow
 default[:openstudio][:source][:version] = "1.2.3"
 default[:openstudio][:source][:version_revision] = "27c8fd5adf"
 default[:openstudio][:source][:url] = "https://github.com/NREL/OpenStudio/archive"
-default[:openstudio][:source][:cores] = 6
+
+# by default it will build on n - 1 cores.  Uncomment if you want to explicitly define
+#default[:openstudio][:source][:cores] = 2 # uncomment 
