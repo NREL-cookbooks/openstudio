@@ -5,12 +5,11 @@ Vagrant.configure("2") do |config|
   # All Vagrant configuration is done here. The most common configuration
   # options are documented and commented below. For a complete reference,
   # please see the online documentation at vagrantup.com.
-  config.vm.hostname = "openstudio-vagrant"
+  config.vm.hostname = "openstudio-build"
 
   # Every Vagrant virtual environment requires a box to build off of.
   config.vm.box = "ubuntu-precise-64-vbox"
   config.vm.box_url = "http://files.vagrantup.com/precise64.box"
-
   #config.vm.box = "centos65-x86_64"
   #config.vm.box_url = "https://github.com/2creatives/vagrant-centos/releases/download/v6.5.1/centos65-x86_64-20131205.box"
 
@@ -26,6 +25,44 @@ Vagrant.configure("2") do |config|
     # Causes slowness: https://github.com/rubygems/rubygems/issues/513
     #vb.customize ["modifyvm", :id, "--natdnsproxy1", "off"]
     #vb.customize ["modifyvm", :id, "--natdnshostresolver1", "off"]
+  end
+
+  config.vm.provider :aws do |aws, override|
+    begin
+      override.vm.box = "dummy"
+      override.vm.box_url = "http://github.com/mitchellh/vagrant-aws/raw/master/dummy.box"
+
+      # you will need to create a yaml file with these values to
+      # properly deploy to ec2
+      require 'yaml'
+      secret_file = File.join(Dir.home, "aws_config.yml")
+      if File.exist? secret_file
+        aws_config = YAML::load_file(secret_file)
+        aws.access_key_id = aws_config.fetch("access_key_id")
+        aws.secret_access_key = aws_config.fetch("secret_access_key")
+        aws.keypair_name = aws_config.fetch("keypair_name")
+        override.ssh.private_key_path = aws_config.fetch("private_key_path")
+      else
+        raise "Could not find '#{secret_file}' file with your secrets"
+      end
+
+      aws.security_groups = ["default"]
+      aws.region = "us-east-1"
+#      aws.instance_type = "m3.xlarge" # $0.45 / hour, 4 cores, moderate network
+      aws.instance_type = "m3.2xlarge" # 8 cores
+      #aws.instance_type = "t1.micro" # $0.45 / hour, 4 cores, moderate network
+      #aws.ami = "ami-d0f89fb9" #orig non-cluster AMI
+      aws.ami = "ami-995a06f0"  #16GB version
+
+      override.ssh.username = "ubuntu"
+
+      aws.tags = {
+          'Name' => 'build-openstudio',
+          'UserUUID' => ENV["VAGRANT_AWS_USER_UUID"] || 'unknown_user_uuid'
+      }
+    rescue LoadError
+      warn "Unable to configure AWS provider."
+    end
   end
 
   config.vm.provision :chef_solo do |chef|
@@ -57,6 +94,9 @@ Vagrant.configure("2") do |config|
                     }
                 ]
             }
+        },
+        :openstudio => {
+            :install_method => "source"
         }
     }
 
