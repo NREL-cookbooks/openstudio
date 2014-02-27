@@ -14,3 +14,16 @@ default[:openstudio][:source][:url] = "https://github.com/NREL/OpenStudio/archiv
 
 # by default it will build on n - 1 cores.  Uncomment if you want to explicitly define
 #default[:openstudio][:source][:cores] = 2 # uncomment 
+
+case node[:openstudio][:install_method]
+	when 'installer'
+		default[:openstudio][:root_path] = "/usr/local"
+		default[:openstudio][:rubylib_path] = "lib/ruby/site_ruby/2.0.0"
+
+	when 'source'
+		default[:openstudio][:root_path] = "/usr/local/openstudio-#{node[:openstudio][:source][:version]}"
+		default[:openstudio][:rubylib_path] = "OpenStudioCore-prefix/src/OpenStudioCore-build/ruby"
+    else
+end
+
+
