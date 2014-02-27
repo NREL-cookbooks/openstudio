@@ -7,10 +7,10 @@
 # install some extra packages to make this work right.
 case node['platform_family']
   when "debian"
-    include_recipe "apt"
+    #
     include_recipe "gdebi"
   when "rhel"
-    include_recipe "yum"
+    #
 end
 
 if platform_family?("debian")

@@ -10,8 +10,8 @@ Vagrant.configure("2") do |config|
   # Every Vagrant virtual environment requires a box to build off of.
   config.vm.box = "ubuntu-precise-64-vbox"
   config.vm.box_url = "http://files.vagrantup.com/precise64.box"
-  #config.vm.box = "centos65-x86_64"
-  #config.vm.box_url = "https://github.com/2creatives/vagrant-centos/releases/download/v6.5.1/centos65-x86_64-20131205.box"
+  #config.vm.box = "centos65-x86_64-nrel"
+  #config.vm.box_url = "http://developer.nrel.gov/downloads/vagrant-boxes/CentOS-6.5-x86_64-v20140110.box"
 
   config.vm.network :private_network, :ip => "33.33.33.35"
 
@@ -35,7 +35,7 @@ Vagrant.configure("2") do |config|
       # you will need to create a yaml file with these values to
       # properly deploy to ec2
       require 'yaml'
-      secret_file = File.join(Dir.home, "aws_config.yml")
+      secret_file = File.join(Dir.home, ".aws_secrets")
       if File.exist? secret_file
         aws_config = YAML::load_file(secret_file)
         aws.access_key_id = aws_config.fetch("access_key_id")
@@ -48,13 +48,17 @@ Vagrant.configure("2") do |config|
 
       aws.security_groups = ["default"]
       aws.region = "us-east-1"
-#      aws.instance_type = "m3.xlarge" # $0.45 / hour, 4 cores, moderate network
-      aws.instance_type = "m3.2xlarge" # 8 cores
+      aws.instance_type = "m3.xlarge" # $0.45 / hour, 4 cores, moderate network
+      #aws.instance_type = "m3.2xlarge" # 8 cores
       #aws.instance_type = "t1.micro" # $0.45 / hour, 4 cores, moderate network
-      #aws.ami = "ami-d0f89fb9" #orig non-cluster AMI
-      aws.ami = "ami-995a06f0"  #16GB version
+      #aws.ami = "ami-995a06f0"  # Ubuntu 12.04 x86_64 16GB version 
+      #override.ssh.username = "ubuntu" 
+      
+      aws.ami = "ami-eb6b0182"  # CentOS 6.5 x86_64
+      override.ssh.username = "root" 
+      override.ssh.pty = true  # needed for centos
+      
 
-      override.ssh.username = "ubuntu"
 
       aws.tags = {
           'Name' => 'build-openstudio',
