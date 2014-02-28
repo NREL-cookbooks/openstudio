@@ -29,7 +29,7 @@ if platform_family?("debian")
       Chef::Log.info("OpenStudio version installed set to #{version_installed}")
       if File.exists?("/usr/local/lib/ruby/site_ruby/2.0.0/openstudio.rb")
         # check the version
-        version = `ruby -I /usr/local/lib/ruby/site_ruby/2.0.0/ -e "require 'openstudio'" -e "puts OpenStudio::openStudioLongVersion"`.chomp
+        version = `ruby -e "require 'openstudio'" -e "puts OpenStudio::openStudioLongVersion"`.chomp
         Chef::Log.info("Current version of OpenStudio is #{version} and requesting #{node[:openstudio][:installer][:version]}.#{node[:openstudio][:installer][:version_revision]}")
         if "#{node[:openstudio][:installer][:version]}.#{node[:openstudio][:installer][:version_revision]}".include?(version)
           version_installed = true
