@@ -7,7 +7,7 @@
 # install some extra packages to make this work right.
 case node['platform_family']
   when "debian"
-    #
+    include_recipe "apt"
     include_recipe "gdebi"
   when "rhel"
     #
@@ -18,28 +18,26 @@ if platform_family?("debian")
   Chef::Log.info "Installing OpenStudio via Installer"
   filename = "OpenStudio-#{node[:openstudio][:installer][:version]}.#{node[:openstudio][:installer][:version_revision]}-#{node[:openstudio][:installer][:platform]}.deb"
   file_path = "#{Chef::Config[:file_cache_path]}/#{filename}"
-  Chef::Log.info "Path to openstudio download is #{file_path}"
+  Chef::Log.info "Path to openstudio download will be #{file_path}"
   src_path = "#{node[:openstudio][:installer][:download_url]}/#{node[:openstudio][:installer][:version]}/#{filename}"
+  test_version = "#{node[:openstudio][:installer][:version]}.#{node[:openstudio][:installer][:version_revision]}"
 
+  is_installed_command = "ruby -e \"require 'openstudio'\" -e \"puts OpenStudio::openStudioLongVersion\" | grep -q #{test_version}"
+  openstudio_version = `ruby -e "require 'openstudio'" -e "puts OpenStudio::openStudioLongVersion"`
+  Chef::Log.info("Current version of OpenStudio is #{openstudio_version} and requesting #{test_version} ")
   
   #check the current version of openstudio installation
-  version_installed = false
   ruby_block "check-openstudio-version" do
     block do
-      Chef::Log.info("OpenStudio version installed set to #{version_installed}")
-      if File.exists?("/usr/local/lib/ruby/site_ruby/2.0.0/openstudio.rb")
-        # check the version
-        version = `ruby -e "require 'openstudio'" -e "puts OpenStudio::openStudioLongVersion"`.chomp
-        Chef::Log.info("Current version of OpenStudio is #{version} and requesting #{node[:openstudio][:installer][:version]}.#{node[:openstudio][:installer][:version_revision]}")
-        if "#{node[:openstudio][:installer][:version]}.#{node[:openstudio][:installer][:version_revision]}".include?(version)
-          version_installed = true
-        end
-      end
+      Chef::Log.info("Current version of OpenStudio is #{openstudio_version} and requesting #{test_version} ")
+      Chef::Log.info("OpenStudio is installed command #{is_installed_command}")
     end
-
     notifies :create, "remote_file[#{file_path}]", :immediately
     notifies :install, "gdebi_package[openstudio]", :immediately
-    not_if { version_installed }
+    notifies :run, "execute[symlink-openstudio-directories]", :immediately
+    
+    action :run
+    not_if is_installed_command 
   end
 
   remote_file file_path do
@@ -54,18 +52,14 @@ if platform_family?("debian")
 
   # use gdebi to install dependencies
   gdebi_package "openstudio" do
-    Chef::Log.info "OpenStudio version installed set to #{version_installed}"
     source file_path
 
-    # notifies :run, "execute[install-openstudio-deps]", :immediately
-    notifies :run, "execute[symlink-openstudio-directories]", :immediately
-
-    action :install
-    not_if { version_installed }
+    action :nothing
   end
 
   execute "symlink-openstudio-directories" do
     command "cd /usr/local/lib/ruby/site_ruby/2.0.0/ && ln -sf x86_64-linux lib"
+    
     action :nothing
   end
 else
