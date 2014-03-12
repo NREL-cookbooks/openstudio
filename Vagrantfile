@@ -81,7 +81,7 @@ Vagrant.configure("2") do |config|
             :upgrade => true,
             :rubies => [
                 {
-                    :name => '2.0.0-p353',
+                    :name => '2.0.0-p451',
                     :environment => {
                         'RUBY_CONFIGURE_OPTS' => '--enable-shared', # needs to be set for openstudio linking
                         'CONFIGURE_OPTS' => '--disable-install-doc'
@@ -89,18 +89,21 @@ Vagrant.configure("2") do |config|
                 }
             ],
             :no_rdoc_ri => true,
-            :global => "2.0.0-p353",
+            :global => "2.0.0-p451",
             :gems => {
-                "2.0.0-p353" => [
+                "2.0.0-p451" => [
                     {
                         :name => "bundler",
-                        :version => "1.3.5"
+                        :version => "1.5.1"
                     }
                 ]
             }
         },
         :openstudio => {
-            :install_method => "source"
+            :install_method => "source",
+            :source => {
+                #:version => "65315174-UpdateForChefDeployment" 
+            }
         }
     }
 

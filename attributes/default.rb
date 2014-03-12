@@ -9,7 +9,7 @@ default[:openstudio][:installer][:platform] = "Linux-Ruby2.0"
 default[:openstudio][:installer][:download_url] = "http://developer.nrel.gov/downloads/buildings/openstudio/builds"
 
 # for building openstudio on the node
-default[:openstudio][:source][:version] = "1.2.4"
+default[:openstudio][:source][:version] = "v1.2.4"  # make sure to prepend the v
 default[:openstudio][:source][:url] = "https://github.com/NREL/OpenStudio/archive"
 
 # by default it will build on n - 1 cores.  Uncomment if you want to explicitly define
