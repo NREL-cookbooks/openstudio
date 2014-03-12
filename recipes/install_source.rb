@@ -51,6 +51,7 @@ if platform_family?("debian") || platform_family?("rhel")
     prefix_root '/usr/local'
     cmake_opts ["-DCMAKE_BUILD_TYPE=Release", "-DBUILD_PACKAGE=true"]
     make_opts ["-j#{number_of_available_cores}", "> build.log 2>&1"]
+    make_timeout 3600 * 4 # four hours
     action :install_with_cmake
   end 
 else
