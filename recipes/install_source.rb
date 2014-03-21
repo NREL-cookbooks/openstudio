@@ -21,7 +21,7 @@ case node['platform_family']
         package p
       end
     else
-      package "libqt4-devel"
+      package "libqt4-dev"
     end
   when "rhel"
 
