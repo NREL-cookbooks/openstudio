@@ -6,6 +6,8 @@ This file is used to list changes made in each version of openstudio.
 
 * remove Vagrantfile in favor of kitchen
 * Add Ruby recipe for installing ruby via rbenv instead of requiring a role/attribute
+* Download source from codeload.github.com
+* Add support for install qt via package manager instead of building
 
 ## 0.1.4:
 
