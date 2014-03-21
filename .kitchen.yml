@@ -1,13 +1,7 @@
 ---
 driver:
   name: vagrant
-  aws_access_key_id: <%= ENV['AWS_ACCESS_KEY'] %>
-  aws_secret_access_key: <%= ENV['AWS_SECRET_KEY'] %>
-  aws_ssh_key_id: <%= ENV['AWS_SSH_KEY_ID'] %>
-  ssh_key: <%= File.expand_path("~/.ssh/ENV['AWS_SSH_KEY_ID']") %>
-  security_group_ids: ["default"]
-  region: us-east-1
-  availability_zone: us-east-1b
+  
 
 driver_config:
   require_chef_omnibus: true
@@ -26,6 +20,13 @@ platforms:
       name: ec2
       image_id: ami-2f115c46
       flavor_id: m3.xlarge
+      aws_access_key_id: <%= ENV['AWS_ACCESS_KEY'] %>
+      aws_secret_access_key: <%= ENV['AWS_SECRET_KEY'] %>
+      aws_ssh_key_id: <%= ENV['AWS_SSH_KEY_ID'] %>
+      ssh_key: <%= File.expand_path("~/.ssh/ENV['AWS_SSH_KEY_ID']") %>
+      security_group_ids: ["default"]
+      region: us-east-1
+      availability_zone: us-east-1b
 
 suites:
   - name: install
@@ -40,6 +41,6 @@ suites:
       - recipe[openstudio::default]
     attributes:
       openstudio:
-        install_method: "build"
+        install_method: "source"
 
 
