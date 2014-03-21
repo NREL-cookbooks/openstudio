@@ -13,7 +13,7 @@ default[:openstudio][:skip_ruby_install] = false
 
 # for building openstudio on the node
 default[:openstudio][:source][:version] = "v1.2.4"  # make sure to prepend the v
-default[:openstudio][:source][:url] = "https://github.com/NREL/OpenStudio/archive"
+default[:openstudio][:source][:url] = "https://codeload.github.com/NREL/OpenStudio/zip"
 
 # by default it will build on n - 1 cores.  Uncomment if you want to explicitly define
 #default[:openstudio][:source][:cores] = 2 # uncomment 
