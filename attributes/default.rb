@@ -8,6 +8,9 @@ default[:openstudio][:installer][:version_revision] = "4bfc685068"
 default[:openstudio][:installer][:platform] = "Linux-Ruby2.0"
 default[:openstudio][:installer][:download_url] = "http://developer.nrel.gov/downloads/buildings/openstudio/builds"
 
+# skip ruby installation (make sure that you do this yourself if set to true) 
+default[:openstudio][:skip_ruby_install] = false
+
 # for building openstudio on the node
 default[:openstudio][:source][:version] = "v1.2.4"  # make sure to prepend the v
 default[:openstudio][:source][:url] = "https://github.com/NREL/OpenStudio/archive"
@@ -25,5 +28,7 @@ case node[:openstudio][:install_method]
 		default[:openstudio][:rubylib_path] = "OpenStudioCore-prefix/src/OpenStudioCore-build/ruby"
     else
 end
+
+
 
 

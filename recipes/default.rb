@@ -11,6 +11,7 @@ elsif platform_family?('rhel')
 	include_recipe "yum-epel"
 end
 
+include_recipe "openstudio::ruby" unless node[:openstudio][:skip_ruby_install]
 include_recipe "energyplus"
 include_recipe "openstudio::install_#{node[:openstudio][:install_method]}"
 

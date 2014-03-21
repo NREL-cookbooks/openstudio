@@ -2,6 +2,11 @@
 
 This file is used to list changes made in each version of openstudio.
 
+## 0.1.5:
+
+* remove Vagrantfile in favor of kitchen
+* Add Ruby recipe for installing ruby via rbenv instead of requiring a role/attribute
+
 ## 0.1.4:
 
 * require the prepended v in the version to allow for downloading zip files of branches for installation

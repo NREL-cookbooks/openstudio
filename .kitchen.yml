@@ -1,16 +1,45 @@
 ---
 driver:
   name: vagrant
+  aws_access_key_id: <%= ENV['AWS_ACCESS_KEY'] %>
+  aws_secret_access_key: <%= ENV['AWS_SECRET_KEY'] %>
+  aws_ssh_key_id: <%= ENV['AWS_SSH_KEY_ID'] %>
+  ssh_key: <%= File.expand_path("~/.ssh/ENV['AWS_SSH_KEY_ID']") %>
+  security_group_ids: ["default"]
+  region: us-east-1
+  availability_zone: us-east-1b
 
+driver_config:
+  require_chef_omnibus: true
+  customize:
+    memory: 2048
+    cpus: 2
+    
 provisioner:
   name: chef_solo
 
 platforms:
   - name: ubuntu-12.04
   - name: centos-6.5
+  - name: amazon-ubuntu-12.04
+    driver:
+      name: ec2
+      image_id: ami-2f115c46
+      flavor_id: m3.xlarge
 
 suites:
-  - name: default
+  - name: install
+    run_list:
+      - recipe[openstudio::default]
+    attributes:  
+      openstudio: 
+        install_method: "installer"
+        
+  - name: build
     run_list:
       - recipe[openstudio::default]
     attributes:
+      openstudio:
+        install_method: "build"
+
+
