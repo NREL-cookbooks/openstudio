@@ -41,9 +41,9 @@ include_recipe "ark"
 require 'facter'
 
 # Check if the system has enough memory per core for the build process 
-number_of_available_cores = node[:openstudio][:source][:cores] || Facter.processorcount.to_i - 1
+number_of_available_cores = node[:openstudio][:source][:cores] || Facter.fact(:processorcount).value.to_i - 1
 number_of_available_cores = 1 if number_of_available_cores == 0
-available_memory = Facter.memorytotal.to_f
+available_memory = Facter.fact(:memorysize_mb).value.to_f / 1000
 
 Chef::Log.info "Available Cores: #{number_of_available_cores}. Memory: #{available_memory} GB"
 mem_core_ratio = available_memory / number_of_available_cores
