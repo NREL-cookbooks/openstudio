@@ -59,6 +59,7 @@ if platform_family?("debian") || platform_family?("rhel")
     cmake_opts ["-DCMAKE_BUILD_TYPE=Release", "-DBUILD_PACKAGE=true"]
     make_opts ["-j#{number_of_available_cores}", "> build.log 2>&1"]
     make_timeout 3600 * 4 # four hours
+    make_install_append_path "OpenStudioCore-prefix/src/OpenStudioCore-build"
     action :install_with_cmake
   end
 else
