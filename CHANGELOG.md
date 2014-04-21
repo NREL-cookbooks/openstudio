@@ -1,6 +1,10 @@
 # CHANGELOG for openstudio
 
 This file is used to list changes made in each version of openstudio.
+## 0.1.6/7:
+
+* Force install by source for RHEL systems
+* Add Vagrant file
 
 ## 0.1.5:
 

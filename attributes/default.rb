@@ -1,5 +1,9 @@
 default[:openstudio][:install_method] = "installer"
-#default[:openstudio][:install_method] = "source"
+
+if platform_family?('rhel')
+  # force source installation on rhel since no package is provided (with ruby 2.0 support)
+  default[:openstudio][:install_method] = "source"
+end
 default[:openstudio][:add_library_to_path] = true
 
 # default versions
