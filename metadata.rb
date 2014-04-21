@@ -6,13 +6,11 @@ description      'Installs/Configures OpenStudio'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          '0.1.6'
 
-depends "energyplus"
-depends "apt"
-depends "ark"
+depends "apt", "~> 2.3.8"
 depends "yum"
 depends "yum-epel"
-depends "build-essential"
 depends "gdebi"
-
+depends "energyplus"
 depends "rbenv"
 depends "ruby_build"
+depends "build-essential"
