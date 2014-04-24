@@ -1,6 +1,10 @@
 # CHANGELOG for openstudio
 
-This file is used to list changes made in each version of openstudio.
+## 0.2.0:
+
+* support for installing EnergyPlus 8.1 when using OpenStudio 1.3.2 or greater
+
+
 ## 0.1.6/7:
 
 * Force install by source for RHEL systems

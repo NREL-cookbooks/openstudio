@@ -13,16 +13,24 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Every Vagrant virtual environment requires a box to build off of.
   config.vm.box = "opscode-ubuntu-12.04"
   config.vm.box_url = "https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-12.04_provisionerless.box"
+  #config.vm.box = "centos64-nrel-x86_64"
+  #config.vm.box_url = "http://developer.nrel.gov/downloads/vagrant-boxes/CentOS-6.4-x86_64-v20130731.box"
 
   config.vm.network :private_network, type: "dhcp"
   config.vm.provider :virtualbox do |p|
     p.customize ["modifyvm", :id, "--memory", "2048"]
-    p.customize ["modifyvm", :id, "--cpus", "2"]
+    p.customize ["modifyvm", :id, "--cpus", "3"]
   end
 
   config.berkshelf.enabled = true
   config.vm.provision :chef_solo do |chef|
     chef.json = {
+	:openstudio => {
+		:installer => {
+			:version => "1.3.2",
+			:version_revision => "386caf0e00"
+		}
+	}
     }
 
     chef.run_list = [
