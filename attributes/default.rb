@@ -8,8 +8,8 @@ end
 default[:openstudio][:add_library_to_path] = true
 
 # default versions
-default[:openstudio][:installer][:version] = "1.3.1"
-default[:openstudio][:installer][:version_revision] = "cf41a5d03b"
+default[:openstudio][:installer][:version] = "1.3.2"
+default[:openstudio][:installer][:version_revision] = "386caf0e00"
 default[:openstudio][:installer][:platform] = "Linux-Ruby2.0"
 default[:openstudio][:installer][:download_url] = "http://developer.nrel.gov/downloads/buildings/openstudio/builds"
 
@@ -17,7 +17,7 @@ default[:openstudio][:installer][:download_url] = "http://developer.nrel.gov/dow
 default[:openstudio][:skip_ruby_install] = false
 
 # for building openstudio on the node
-default[:openstudio][:source][:version] = "v1.3.1"  # make sure to prepend the v
+default[:openstudio][:source][:version] = "v1.3.2"  # make sure to prepend the v
 default[:openstudio][:source][:url] = "https://codeload.github.com/NREL/OpenStudio/zip"
 default[:openstudio][:source][:build_qt] = false
 
