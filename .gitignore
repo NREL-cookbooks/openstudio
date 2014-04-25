@@ -16,3 +16,8 @@ bin/*
 
 .kitchen/
 .kitchen.local.yml
+
+# Custom
+vagrant.ssh.config
+build.log
+/*.tar.gz

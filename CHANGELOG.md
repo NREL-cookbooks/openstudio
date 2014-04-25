@@ -1,5 +1,10 @@
 # CHANGELOG for openstudio
 
+## 0.2.1:
+
+* Add call to make package always via ark
+* Initial rake file to download built package
+
 ## 0.2.0:
 
 * support for installing EnergyPlus 8.1 when using OpenStudio 1.3.2 or greater

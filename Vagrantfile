@@ -18,14 +18,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.network :private_network, type: "dhcp"
   config.vm.provider :virtualbox do |p|
-    p.customize ["modifyvm", :id, "--memory", "2048"]
-    p.customize ["modifyvm", :id, "--cpus", "3"]
+    nc = 3
+    p.customize ["modifyvm", :id, "--memory", nc*2048, "--cpus", nc]
   end
 
   config.berkshelf.enabled = true
   config.vm.provision :chef_solo do |chef|
     chef.json = {
 	:openstudio => {
+		:install_method => "source",
 		:installer => {
 			:version => "1.3.2",
 			:version_revision => "386caf0e00"
