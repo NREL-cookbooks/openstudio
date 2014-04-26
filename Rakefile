@@ -43,9 +43,10 @@ namespace :build do
     @loader = Kitchen::Loader::YAML.new(project_config: './.kitchen.yml')
     config = Kitchen::Config.new(loader: @loader)
     config.instances.each do |instance|
+      pp "Checking name: #{instance.name}"
 
       # right now only build amazon ubuntu version
-      if instance.suite.name == 'build-ruby-200' && instance.platform.name == 'aws-ubuntu-1204'
+      if instance.name == 'build-ruby-200-ubuntu-1204'
         begin
           pp instance.provisioner[:attributes]
           instance.test(:none) # don't destroy the instance until laster
