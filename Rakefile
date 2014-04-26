@@ -1,6 +1,4 @@
 # Rakefile to help build OpenStudio on a remote target and download the binaries locally
-
-# Style tests. Rubocop and Foodcritic
 namespace :build do
   def files_to_download
     files = [
@@ -35,7 +33,7 @@ namespace :build do
     require 'pp'
     files = [
         {
-            remote: '/usr/local/openstudio-*/build.log',
+            remote: '/usr/local/openstudio-*/build-*.log',
             local: '.'
         },
         {

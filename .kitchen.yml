@@ -28,11 +28,12 @@ platforms:
       security_group_ids: ["default"]
       region: us-east-1
       availability_zone: us-east-1b
+      ebs_optimized: true
   - name: amazon-centos-6.5
     driver:
       name: ec2
       username: root
-      image_id: ami-eb6b0182
+      image_id: ami-8997afe0
       flavor_id: m3.xlarge
       aws_access_key_id: <%= ENV['AWS_ACCESS_KEY'] %>
       aws_secret_access_key: <%= ENV['AWS_SECRET_KEY'] %>
@@ -41,6 +42,7 @@ platforms:
       security_group_ids: ["default"]
       region: us-east-1
       availability_zone: us-east-1b      
+      ebs_optimized: true
 
 suites:
   - name: install
@@ -56,5 +58,7 @@ suites:
     attributes:
       openstudio:
         install_method: "source"
+        source:
+          build_prefix: "/mnt"
 
 

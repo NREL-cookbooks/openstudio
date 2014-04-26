@@ -48,17 +48,19 @@ available_memory = Facter.fact(:memorysize_mb).value.to_f / 1000
 Chef::Log.info "Available Cores: #{number_of_available_cores}. Memory: #{available_memory} GB"
 mem_core_ratio = available_memory / number_of_available_cores
 Chef::Log.info "Mem:Core Ratio = #{mem_core_ratio}"
-raise "Not enough memory per core to build openstudio (#{mem_core_ratio})" if mem_core_ratio < 1
+raise "Not enough memory per core to build OpenStudio (#{mem_core_ratio})" if mem_core_ratio < 1
 
 if platform_family?("debian") || platform_family?("rhel")
   ark "openstudio" do
     url "#{node[:openstudio][:source][:url]}/#{node[:openstudio][:source][:version]}"
     extension "zip"
     version node[:openstudio][:source][:version]
-    prefix_root '/usr/local'
-    cmake_opts ["-DCMAKE_BUILD_TYPE=Release", "-DBUILD_PACKAGE=true",
-                "-DCMAKE_VERSION_BUILD=#{node[:openstudio][:source][:version_revision]}"]
-    make_opts ["-j#{number_of_available_cores}", "> build.log 2>&1"]
+    prefix_root  node[:openstudio][:source][:build_prefix]
+    cmake_opts ["-DCMAKE_BUILD_TYPE=Release",
+                "-DBUILD_PACKAGE=TRUE",
+                "-DCMAKE_VERSION_BUILD=#{node[:openstudio][:source][:version_revision]}",
+                "-DBUILD_TESTING=#{node[:openstudio][:source][:build_testing]}"]
+    make_opts ["-j#{number_of_available_cores}", "> build-#{node['platform_family']}.log 2>&1"]
     make_timeout 3600 * 6 # six hours
     make_install_append_path "OpenStudioCore-prefix/src/OpenStudioCore-build"
     make_package true
