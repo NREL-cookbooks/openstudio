@@ -16,11 +16,11 @@ end
 if platform_family?("debian")
   # get some high level variables
   Chef::Log.info "Installing OpenStudio via Installer"
-  filename = "OpenStudio-#{node[:openstudio][:installer][:version]}.#{node[:openstudio][:installer][:version_revision]}-#{node[:openstudio][:installer][:platform]}.deb"
+  filename = "OpenStudio-#{node[:openstudio][:version]}.#{node[:openstudio][:installer][:version_revision]}-#{node[:openstudio][:installer][:platform]}.deb"
   file_path = "#{Chef::Config[:file_cache_path]}/#{filename}"
   Chef::Log.info "Path to openstudio download will be #{file_path}"
-  src_path = "#{node[:openstudio][:installer][:download_url]}/#{node[:openstudio][:installer][:version]}/#{filename}"
-  test_version = "#{node[:openstudio][:installer][:version]}.#{node[:openstudio][:installer][:version_revision]}"
+  src_path = "#{node[:openstudio][:installer][:download_url]}/#{node[:openstudio][:version]}/#{filename}"
+  test_version = "#{node[:openstudio][:version]}.#{node[:openstudio][:installer][:version_revision]}"
 
   is_installed_command = "ruby -e \"require 'openstudio'\" -e \"puts OpenStudio::openStudioLongVersion\" | grep -q #{test_version}"
   openstudio_version = `ruby -e "require 'openstudio'" -e "puts OpenStudio::openStudioLongVersion"`
