@@ -52,9 +52,9 @@ raise "Not enough memory per core to build OpenStudio (#{mem_core_ratio})" if me
 
 if platform_family?("debian") || platform_family?("rhel")
   ark "openstudio" do
-    url "#{node[:openstudio][:source][:url]}/#{node[:openstudio][:source][:version]}"
+    url "#{node[:openstudio][:source][:url]}/#{node[:openstudio][:source][:download_version]}"
     extension "zip"
-    version node[:openstudio][:source][:version]
+    version node[:openstudio][:version]
     prefix_root  node[:openstudio][:source][:build_prefix]
     cmake_opts ["-DCMAKE_BUILD_TYPE=Release",
                 "-DBUILD_PACKAGE=TRUE",

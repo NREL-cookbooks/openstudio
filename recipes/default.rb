@@ -18,14 +18,7 @@ require 'semantic/core_ext'
 include_recipe "openstudio::ruby" unless node[:openstudio][:skip_ruby_install]
 
 # override version of energyplus based on the openstudio version
-requested_version = "1.3.0".to_version
-if node[:openstudio][:install_method] == "source"
-  requested_version = node[:openstudio][:source][:version].gsub('v','').to_version
-else
-  requested_version = node[:openstudio][:installer][:version].to_version
-end
-
-if requested_version >= "1.3.2".to_version
+if node[:openstudio][:version].to_version >= "1.3.2".to_version
   node.default[:energyplus][:version] = "810009"
   node.default[:energyplus][:long_version] = "8.1.0"
 else
