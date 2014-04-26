@@ -17,7 +17,8 @@ default[:openstudio][:installer][:download_url] = "http://developer.nrel.gov/dow
 default[:openstudio][:skip_ruby_install] = false
 
 # for building openstudio on the node
-default[:openstudio][:source][:version] = "v1.3.2"  # make sure to prepend the v
+default[:openstudio][:source][:version] = "v1.3.2"  # make sure to prepend the v or use the branch
+default[:openstudio][:source][:version_revision] = "386caf0e00" # this is tacked onto the package 1.3.2.xyz (typically a SHA)
 default[:openstudio][:source][:url] = "https://codeload.github.com/NREL/OpenStudio/zip"
 default[:openstudio][:source][:build_qt] = false
 
