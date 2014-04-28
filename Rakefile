@@ -1,27 +1,33 @@
-# Rakefile to help build OpenStudio on a remote target and download the binaries locally
+# Rakefil to help build OpenStudio on a remote target and download the binaries locally
 require 'kitchen'
 require 'pp'
 require 'yaml'
 
 namespace :build do
   def files_to_download
+    # TODO: Get the /mnt folder from the config file
     files = [
-        {remote: '/usr/local/openstudio-*/build.log', local: '.'},
-        {remote: '/usr/local/openstudio-*/OpenStudio-*.tar.gz', local: '.'}
+        {remote: '/mnt/openstudio-*/build*.log', local: '.'},
+        {remote: '/mnt/openstudio-*/OpenStudio-*.tar.gz', local: '.'}
     ]
   end
 
   # Download the files off of the machines (either vagrant or kitchen)
   def download_files(instance)
     if instance.driver.name.downcase == 'vagrant'
-      # save the vagrant ssh config file
-      ssh_config_file = './vagrant.ssh.config'
+      current_dir = Dir.pwd
+      ssh_config_file = "#{current_dir}/vagrant.ssh.config"
+
+      # Go into the vagrant directory and extract the vagrant ssh configuration via `vagrant`
+      Dir.chdir(".kitchen/kitchen-vagrant/#{instance.name}")
       File.delete(ssh_config_file) if File.exists?(ssh_config_file)
       `vagrant ssh-config > #{ssh_config_file}`
+      Dir.chdir(current_dir)
 
       files_to_download.each do |f|
         `scp -F vagrant.ssh.config default:#{f[:remote]} #{f[:local]}`
       end
+      File.delete(ssh_config_file) if File.exists?(ssh_config_file)
     elsif instance.driver.name.downcase == 'ec2'
       # look for the .kitchen/xyz.yml file
       instance_file = "./kitchen/#{instance.name}.yml"
@@ -46,7 +52,7 @@ namespace :build do
       pp "Checking name: #{instance.name}"
 
       # right now only build amazon ubuntu version
-      if instance.name == 'build-ruby-200-ubuntu-1204'
+      if instance.name == 'build-ruby-200-aws-ubuntu-1204'
         begin
           pp instance.provisioner[:attributes]
           instance.test(:none) # don't destroy the instance until laster
@@ -54,7 +60,7 @@ namespace :build do
           # download the data
           download_files(instance)
         ensure
-          instance.destroy
+#          instance.destroy
         end
       end
     end

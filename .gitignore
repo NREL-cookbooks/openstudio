@@ -19,5 +19,5 @@ bin/*
 
 # Custom
 vagrant.ssh.config
-build.log
+build*.log
 /*.tar.gz

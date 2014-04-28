@@ -6,7 +6,7 @@ driver:
 driver_config:
   require_chef_omnibus: true
   customize:
-    memory: 4096
+    memory: <%= 6*1024 %>
     cpus: 3
     
 provisioner:

@@ -40,7 +40,7 @@ case node[:openstudio][:install_method]
 		default[:openstudio][:rubylib_path] = "lib/ruby/site_ruby/2.0.0"
 
 	when 'source'
-		default[:openstudio][:root_path] = "/usr/local/openstudio-#{node[:openstudio][:source][:version]}"
+		default[:openstudio][:root_path] = "#{node[:openstudio][:source][:build_prefix]}/openstudio-#{node[:openstudio][:version]}"
 		default[:openstudio][:rubylib_path] = "OpenStudioCore-prefix/src/OpenStudioCore-build/ruby"
   else
 end
