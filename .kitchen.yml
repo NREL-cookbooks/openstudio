@@ -28,7 +28,7 @@ platforms:
       security_group_ids: ["default"]
       region: us-east-1
       availability_zone: us-east-1b
-      ebs_optimized: true
+      ebs_optimized: false
   - name: aws-centos-6.5
     driver:
       name: ec2
@@ -42,7 +42,7 @@ platforms:
       security_group_ids: ["default"]
       region: us-east-1
       availability_zone: us-east-1b      
-      ebs_optimized: true
+      ebs_optimized: false
 
 suites:
   - name: install
