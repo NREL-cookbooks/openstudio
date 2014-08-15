@@ -64,7 +64,7 @@ suites:
           version_revision: <%= ENV['OS_BUILD_VERSION_REVISION'].nil? ? '6b1721084f' : ENV['OS_BUILD_VERSION_REVISION'].inspect %>
           build_prefix: "/mnt"
         ruby:
-          version: '2.0.0-p451'
+          version: '2.0.0-p481'
   - name: build-ruby-2.1.1
     run_list:
       - recipe[openstudio::default]

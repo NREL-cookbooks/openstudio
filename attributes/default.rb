@@ -32,7 +32,7 @@ default[:openstudio][:source][:build_testing] = "OFF" # has to be a string?
 # By default it will build on n - 1 cores.  Uncomment if you want to explicitly define
 # default[:openstudio][:source][:cores] = 2 # uncomment
 
-default[:openstudio][:ruby][:version] = '2.0.0-p451'
+default[:openstudio][:ruby][:version] = '2.0.0-p481'
 
 case node[:openstudio][:install_method]
 	when 'installer'
