@@ -5,21 +5,20 @@
 #
 # Installs OpenStudio's Required ruby dependency
 
+include_recipe "rbenv"
+include_recipe "rbenv::ruby_build"
 
-include_recipe "ruby_build"
-include_recipe "rbenv::system"
+# Set env variables as they are needed for openstudio linking to ruby
+ENV['RUBY_CONFIGURE_OPTS'] = '--enable-shared'
+ENV['CONFIGURE_OPTS'] = '--disable-install-doc'
 
 rbenv_ruby node[:openstudio][:ruby][:version] do
-  environment({
-                  'RUBY_CONFIGURE_OPTS' => '--enable-shared', # needs to be set for openstudio linking
-                  'CONFIGURE_OPTS' => '--disable-install-doc'
-              })
+  global true
 end
 
-rbenv_global node[:openstudio][:ruby][:version]
-
-rbenv_gem "bundler" do
-  rbenv_version node[:openstudio][:ruby][:version]
+%w(bundler ruby-prof).each do |g|
+  rbenv_gem g do
+    ruby_version node[:openstudio][:ruby][:version]
+  end
 end
-
 
