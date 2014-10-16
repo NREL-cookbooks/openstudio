@@ -27,7 +27,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     chef.json = {
 	:openstudio => {
 		:version => "1.3.2",
-		:install_method => "source",
+		:install_method => "installer",
 		:installer => {
 			:version_revision => "386caf0e00"
 		}
