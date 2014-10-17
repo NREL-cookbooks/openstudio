@@ -1,5 +1,8 @@
 # CHANGELOG for openstudio
 
+## 0.2.2:
+* Support downloading from any URL
+
 ## 0.2.1:
 
 * Add call to make package always via ark
@@ -36,4 +39,3 @@
 ## 0.1.0:
 
 * Initial release of openstudio
-
