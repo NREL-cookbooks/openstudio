@@ -15,17 +15,27 @@ end
 
 if platform_family?("debian")
   # get some high level variables
-  Chef::Log.info "Installing OpenStudio via Installer"
-  filename = "OpenStudio-#{node[:openstudio][:version]}.#{node[:openstudio][:installer][:version_revision]}-#{node[:openstudio][:installer][:platform]}.deb"
+  src_path = ''
+  filename = ''
+  case node[:openstudio][:installer][:origin]
+  when 'developer'
+    Chef::Log.info "Installing OpenStudio via Installer from developer"
+    filename = "OpenStudio-#{node[:openstudio][:version]}.#{node[:openstudio][:installer][:version_revision]}-#{node[:openstudio][:installer][:platform]}.deb"
+    src_path = "#{node[:openstudio][:installer][:download_url]}/#{node[:openstudio][:version]}/#{filename}"
+  when 'url'
+    Chef::Log.info "Installing OpenStudio via Installer from url"
+    filename = node[:openstudio][:installer][:download_filename]
+    src_path = "#{node[:openstudio][:installer][:download_url]}/#{node[:openstudio][:installer][:download_filename]}"
+  end
+
+  test_version = "#{node[:openstudio][:version]}.#{node[:openstudio][:installer][:version_revision]}"
   file_path = "#{Chef::Config[:file_cache_path]}/#{filename}"
   Chef::Log.info "Path to openstudio download will be #{file_path}"
-  src_path = "#{node[:openstudio][:installer][:download_url]}/#{node[:openstudio][:version]}/#{filename}"
-  test_version = "#{node[:openstudio][:version]}.#{node[:openstudio][:installer][:version_revision]}"
 
   is_installed_command = "ruby -e \"require 'openstudio'\" -e \"puts OpenStudio::openStudioLongVersion\" | grep -q #{test_version}"
   openstudio_version = `ruby -e "require 'openstudio'" -e "puts OpenStudio::openStudioLongVersion"`
   Chef::Log.info("Current version of OpenStudio is #{openstudio_version} and requesting #{test_version} ")
-  
+
   #check the current version of openstudio installation
   ruby_block "check-openstudio-version" do
     block do
@@ -35,9 +45,9 @@ if platform_family?("debian")
     notifies :create, "remote_file[#{file_path}]", :immediately
     notifies :install, "gdebi_package[openstudio]", :immediately
     notifies :run, "execute[symlink-openstudio-directories]", :immediately
-    
+
     action :run
-    not_if is_installed_command 
+    not_if is_installed_command
   end
 
   remote_file file_path do
@@ -59,7 +69,7 @@ if platform_family?("debian")
 
   execute "symlink-openstudio-directories" do
     command "cd /usr/local/lib/ruby/site_ruby/2.0.0/ && ln -sf x86_64-linux lib"
-    
+
     action :nothing
   end
 else
@@ -67,7 +77,3 @@ else
   # If working with RHEL/CENTOS then you need to install specific versions of boost and perhaps
   # other dependencies; however these dependencies are not available by packages and need to be compiled.
 end
-
-
-
-

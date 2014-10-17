@@ -12,11 +12,18 @@ default[:openstudio][:add_library_to_path] = true
 default[:openstudio][:version] = "1.3.2"
 
 # default versions
+default[:openstudio][:installer][:origin] = 'developer' # developer or url
 default[:openstudio][:installer][:version_revision] = "386caf0e00"
 default[:openstudio][:installer][:platform] = "Linux-Ruby2.0"
 default[:openstudio][:installer][:download_url] = "http://developer.nrel.gov/downloads/buildings/openstudio/builds"
 
-# skip ruby installation (make sure that you do this yourself if set to true) 
+# example from pulling from any url
+#default[:openstudio][:installer][:origin] = 'url'
+#default[:openstudio][:installer][:version_revision] = "6fca1e6df0"
+#default[:openstudio][:installer][:download_url] = "https://github.com/NREL/OpenStudio/releases/download/v1.5.1-test-packaging.4"
+#default[:openstudio][:installer][:download_filename] = "OpenStudio-1.5.1.6fca1e6df0-Linux.deb"
+
+# skip ruby installation (make sure that you do this yourself if set to true)
 default[:openstudio][:skip_ruby_install] = false
 
 # for building openstudio on the node - this is a little more involved because
@@ -44,7 +51,3 @@ case node[:openstudio][:install_method]
 		default[:openstudio][:rubylib_path] = "OpenStudioCore-prefix/src/OpenStudioCore-build/ruby"
   else
 end
-
-
-
-
