@@ -47,7 +47,7 @@ if platform_family?("debian")
     notifies :run, "execute[symlink-openstudio-directories]", :immediately
 
     action :run
-    not_if is_installed_command
+    #not_if is_installed_command
   end
 
   remote_file file_path do
@@ -67,10 +67,12 @@ if platform_family?("debian")
     action :nothing
   end
 
+  # This may no longer be needed in OpenStudio 1.5.1 or greater. Need to verify how this breaks older versions.
   execute "symlink-openstudio-directories" do
     command "cd /usr/local/lib/ruby/site_ruby/2.0.0/ && ln -sf x86_64-linux lib"
 
     action :nothing
+    not_if { Chef::VersionConstraint.new("~> 1.5.1").include?(node[:openstudio][:version]) }
   end
 else
   Chef::Log.warn("Installing from a #{node['platform_family']} installer is not yet not supported by this cookbook")

@@ -29,7 +29,7 @@ default[:openstudio][:skip_ruby_install] = false
 # for building openstudio on the node - this is a little more involved because
 # CMake holds some information that is not know "easily" to the system beforehand such as the version
 # In addition, you must provide the short SHA so that the package can have a unique identifier
-default[:openstudio][:source][:download_version] = "v1.3.2"  # make sure to prepend the v or use the branch
+default[:openstudio][:source][:download_version] = "v1.3.2" # make sure to prepend the v or use the branch
 default[:openstudio][:source][:version_revision] = "386caf0e00" # this is tacked onto the package 1.3.2.xyz (typically a SHA)
 default[:openstudio][:source][:url] = "https://codeload.github.com/NREL/OpenStudio/zip"
 default[:openstudio][:source][:build_prefix] = "/mnt"
@@ -42,12 +42,16 @@ default[:openstudio][:source][:build_testing] = "OFF" # has to be a string?
 default[:openstudio][:ruby][:version] = '2.0.0-p481'
 
 case node[:openstudio][:install_method]
-	when 'installer'
-		default[:openstudio][:root_path] = "/usr/local"
-		default[:openstudio][:rubylib_path] = "lib/ruby/site_ruby/2.0.0"
+  when 'installer'
+    default[:openstudio][:root_path] = "/usr/local"
+    if Chef::VersionConstraint.new("~> 1.5.1").include?(node[:openstudio][:version])
+      default[:openstudio][:rubylib_path] = "lib/site_ruby/2.0.0"
+    else
+      default[:openstudio][:rubylib_path] = "lib/ruby/site_ruby/2.0.0"
+    end
 
-	when 'source'
-		default[:openstudio][:root_path] = "#{node[:openstudio][:source][:build_prefix]}/openstudio-#{node[:openstudio][:version]}"
-		default[:openstudio][:rubylib_path] = "OpenStudioCore-prefix/src/OpenStudioCore-build/ruby"
+  when 'source'
+    default[:openstudio][:root_path] = "#{node[:openstudio][:source][:build_prefix]}/openstudio-#{node[:openstudio][:version]}"
+    default[:openstudio][:rubylib_path] = "OpenStudioCore-prefix/src/OpenStudioCore-build/ruby"
   else
 end
