@@ -55,7 +55,7 @@ if platform_family?("debian")
     mode 00755
     action :nothing
 
-    already_downloaded = File.exists?(file_path) && File.size?(file_path) > 0
+    already_downloaded = File.exists?(file_path) && File.size(file_path) > 0
     Chef::Log.info "OpenStudio already_downloaded set to #{already_downloaded}"
     not_if { already_downloaded }
   end
