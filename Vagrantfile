@@ -25,17 +25,17 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.berkshelf.enabled = true
   config.vm.provision :chef_solo do |chef|
     chef.json = {
-	:openstudio => {
-		:version => "1.3.2",
-		:install_method => "installer",
-		:installer => {
-			:version_revision => "386caf0e00"
-		}
-	}
+    	:openstudio => {
+    		:version => "1.3.2",
+    		:install_method => "installer",
+    		:installer => {
+    			:version_revision => "386caf0e00"
+    		}
+    	}
     }
 
     chef.run_list = [
-        "recipe[openstudio::default]"
+      "recipe[openstudio::default]"
     ]
   end
 end

@@ -7,7 +7,7 @@ long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          '0.2.2'
 
 # Recommend rbenv but not required
-recommends "rbenv"
+depends "rbenv"
 
 depends "apt"
 depends "yum"
