@@ -18,6 +18,10 @@ if platform_family?("debian")
   src_path = ''
   filename = ''
   case node[:openstudio][:installer][:origin]
+  when 's3'
+    Chef::Log.info "Installing OpenStudio via Installer from s3"
+    filename = "OpenStudio-#{node[:openstudio][:version]}.#{node[:openstudio][:installer][:version_revision]}-#{node[:openstudio][:installer][:platform]}.deb"
+    src_path = "#{node[:openstudio][:installer][:download_url]}/#{node[:openstudio][:version]}/#{filename}"
   when 'developer'
     Chef::Log.info "Installing OpenStudio via Installer from developer"
     filename = "OpenStudio-#{node[:openstudio][:version]}.#{node[:openstudio][:installer][:version_revision]}-#{node[:openstudio][:installer][:platform]}.deb"

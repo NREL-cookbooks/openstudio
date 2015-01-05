@@ -9,13 +9,19 @@ default[:openstudio][:add_library_to_path] = true
 
 # set the version that is going to be in
 #   This should be the version that is in the CMakeFile that you are buildingstalled or built
-default[:openstudio][:version] = "1.3.2"
+default[:openstudio][:version] = "1.5.5"
 
-# default versions
-default[:openstudio][:installer][:origin] = 'developer' # developer or url
-default[:openstudio][:installer][:version_revision] = "386caf0e00"
-default[:openstudio][:installer][:platform] = "Linux-Ruby2.0"
-default[:openstudio][:installer][:download_url] = "http://developer.nrel.gov/downloads/buildings/openstudio/builds"
+# default versions using s3
+default[:openstudio][:installer][:origin] = 's3' # developer, s3, or url
+default[:openstudio][:installer][:version_revision] = "f6ccda50f0"
+default[:openstudio][:installer][:platform] = "Linux"
+default[:openstudio][:installer][:download_url] = "http://s3.amazonaws.com/openstudio-builds"
+
+# using developer (this is being deprecated)
+# default[:openstudio][:installer][:origin] = 'developer' # developer, s3, or url
+# default[:openstudio][:installer][:version_revision] = "386caf0e00"
+# default[:openstudio][:installer][:platform] = "Linux-Ruby2.0"
+# default[:openstudio][:installer][:download_url] = "http://developer.nrel.gov/downloads/buildings/openstudio/builds"
 
 # example from pulling from any url
 #default[:openstudio][:installer][:origin] = 'url'

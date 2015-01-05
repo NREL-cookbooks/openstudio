@@ -11,6 +11,8 @@ cookbook "ruby_build"
 cookbook "rbenv"
 
 cookbook "energyplus", github: 'NREL-cookbooks/energyplus', protocol: 'ssh'
-#cookbook "energyplus", path: '../energyplus'
 cookbook "ark", github: 'NREL-cookbooks/ark', protocol: 'ssh'
+
+# Use these for development
+#cookbook "energyplus", path: '../energyplus'
 #cookbook "ark", path: '../ark'

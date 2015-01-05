@@ -1,5 +1,11 @@
 # CHANGELOG for openstudio
 
+## 0.2.3:
+* Use Ubuntu 14.04 in Vagrant file
+* Remove semantic gem in favor of Chef::VersionConstraint
+* Support for s3 bucket downloads. This is now the default
+* Support for EnergyPlus 8.2 with OpenStudio >= 1.5.4.
+
 ## 0.2.2:
 * Support downloading from any URL
 
