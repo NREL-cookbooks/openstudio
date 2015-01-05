@@ -7,8 +7,8 @@ namespace :build do
   def files_to_download
     # TODO: Get the /mnt folder from the config file
     files = [
-        {remote: '/mnt/openstudio-*/build*.log', local: '.'},
-        {remote: '/mnt/openstudio-*/OpenStudio-*.tar.gz', local: '.'}
+      { remote: '/mnt/openstudio-*/build*.log', local: '.' },
+      { remote: '/mnt/openstudio-*/OpenStudio-*.tar.gz', local: '.' }
     ]
   end
 
@@ -20,14 +20,14 @@ namespace :build do
 
       # Go into the vagrant directory and extract the vagrant ssh configuration via `vagrant`
       Dir.chdir(".kitchen/kitchen-vagrant/#{instance.name}")
-      File.delete(ssh_config_file) if File.exists?(ssh_config_file)
+      File.delete(ssh_config_file) if File.exist?(ssh_config_file)
       `vagrant ssh-config > #{ssh_config_file}`
       Dir.chdir(current_dir)
 
       files_to_download.each do |f|
         `scp -F vagrant.ssh.config default:#{f[:remote]} #{f[:local]}`
       end
-      File.delete(ssh_config_file) if File.exists?(ssh_config_file)
+      File.delete(ssh_config_file) if File.exist?(ssh_config_file)
     elsif instance.driver.name.downcase == 'ec2'
       # look for the .kitchen/xyz.yml file
       instance_file = "./kitchen/#{instance.name}.yml"
@@ -60,7 +60,7 @@ namespace :build do
           # download the data
           download_files(instance)
         ensure
-#          instance.destroy
+          #          instance.destroy
         end
       end
     end

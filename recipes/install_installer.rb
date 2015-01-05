@@ -6,28 +6,28 @@
 
 # install some extra packages to make this work right.
 case node['platform_family']
-  when "debian"
-    include_recipe "apt"
-    include_recipe "gdebi"
-  when "rhel"
-    #
+  when 'debian'
+    include_recipe 'apt'
+    include_recipe 'gdebi'
+  when 'rhel'
+  #
 end
 
-if platform_family?("debian")
+if platform_family?('debian')
   # get some high level variables
   src_path = ''
   filename = ''
   case node[:openstudio][:installer][:origin]
   when 's3'
-    Chef::Log.info "Installing OpenStudio via Installer from s3"
+    Chef::Log.info 'Installing OpenStudio via Installer from s3'
     filename = "OpenStudio-#{node[:openstudio][:version]}.#{node[:openstudio][:installer][:version_revision]}-#{node[:openstudio][:installer][:platform]}.deb"
     src_path = "#{node[:openstudio][:installer][:download_url]}/#{node[:openstudio][:version]}/#{filename}"
   when 'developer'
-    Chef::Log.info "Installing OpenStudio via Installer from developer"
+    Chef::Log.info 'Installing OpenStudio via Installer from developer'
     filename = "OpenStudio-#{node[:openstudio][:version]}.#{node[:openstudio][:installer][:version_revision]}-#{node[:openstudio][:installer][:platform]}.deb"
     src_path = "#{node[:openstudio][:installer][:download_url]}/#{node[:openstudio][:version]}/#{filename}"
   when 'url'
-    Chef::Log.info "Installing OpenStudio via Installer from url"
+    Chef::Log.info 'Installing OpenStudio via Installer from url'
     filename = node[:openstudio][:installer][:download_filename]
     src_path = "#{node[:openstudio][:installer][:download_url]}/#{node[:openstudio][:installer][:download_filename]}"
   end
@@ -40,18 +40,18 @@ if platform_family?("debian")
   openstudio_version = `ruby -e "require 'openstudio'" -e "puts OpenStudio::openStudioLongVersion"`
   Chef::Log.info("Current version of OpenStudio is #{openstudio_version} and requesting #{test_version} ")
 
-  #check the current version of openstudio installation
-  ruby_block "check-openstudio-version" do
+  # check the current version of openstudio installation
+  ruby_block 'check-openstudio-version' do
     block do
       Chef::Log.info("Current version of OpenStudio is #{openstudio_version} and requesting #{test_version} ")
       Chef::Log.info("OpenStudio is installed command #{is_installed_command}")
     end
     notifies :create, "remote_file[#{file_path}]", :immediately
-    notifies :install, "gdebi_package[openstudio]", :immediately
-    notifies :run, "execute[symlink-openstudio-directories]", :immediately
+    notifies :install, 'gdebi_package[openstudio]', :immediately
+    notifies :run, 'execute[symlink-openstudio-directories]', :immediately
 
     action :run
-    #not_if is_installed_command
+    # not_if is_installed_command
   end
 
   remote_file file_path do
@@ -59,24 +59,24 @@ if platform_family?("debian")
     mode 00755
     action :nothing
 
-    already_downloaded = File.exists?(file_path) && File.size(file_path) > 0
+    already_downloaded = File.exist?(file_path) && File.size(file_path) > 0
     Chef::Log.info "OpenStudio already_downloaded set to #{already_downloaded}"
     not_if { already_downloaded }
   end
 
   # use gdebi to install dependencies
-  gdebi_package "openstudio" do
+  gdebi_package 'openstudio' do
     source file_path
 
     action :nothing
   end
 
   # This may no longer be needed in OpenStudio 1.5.1 or greater. Need to verify how this breaks older versions.
-  execute "symlink-openstudio-directories" do
-    command "cd /usr/local/lib/ruby/site_ruby/2.0.0/ && ln -sf x86_64-linux lib"
+  execute 'symlink-openstudio-directories' do
+    command 'cd /usr/local/lib/ruby/site_ruby/2.0.0/ && ln -sf x86_64-linux lib'
 
     action :nothing
-    not_if { Chef::VersionConstraint.new("~> 1.5.1").include?(node[:openstudio][:version]) }
+    not_if { Chef::VersionConstraint.new('~> 1.5.1').include?(node[:openstudio][:version]) }
   end
 else
   Chef::Log.warn("Installing from a #{node['platform_family']} installer is not yet not supported by this cookbook")

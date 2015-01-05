@@ -5,8 +5,8 @@
 #
 # Installs OpenStudio's Required ruby dependency
 
-include_recipe "rbenv"
-include_recipe "rbenv::ruby_build"
+include_recipe 'rbenv'
+include_recipe 'rbenv::ruby_build'
 
 # Set env variables as they are needed for openstudio linking to ruby
 ENV['RUBY_CONFIGURE_OPTS'] = '--enable-shared'
@@ -21,4 +21,3 @@ end
     ruby_version node[:openstudio][:ruby][:version]
   end
 end
-
