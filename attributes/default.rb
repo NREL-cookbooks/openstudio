@@ -50,7 +50,7 @@ default[:openstudio][:ruby][:version] = '2.0.0-p481'
 case node[:openstudio][:install_method]
   when 'installer'
     default[:openstudio][:root_path] = '/usr/local'
-    if Chef::VersionConstraint.new('=> 1.5.1').include?(node[:openstudio][:version])
+    if Chef::VersionConstraint.new('>= 1.5.1').include?(node[:openstudio][:version])
       default[:openstudio][:rubylib_path] = 'lib/site_ruby/2.0.0'
     else
       default[:openstudio][:rubylib_path] = 'lib/ruby/site_ruby/2.0.0'
