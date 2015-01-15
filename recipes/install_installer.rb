@@ -76,7 +76,7 @@ if platform_family?('debian')
     command 'cd /usr/local/lib/ruby/site_ruby/2.0.0/ && ln -sf x86_64-linux lib'
 
     action :nothing
-    not_if { Chef::VersionConstraint.new('~> 1.5.1').include?(node[:openstudio][:version]) }
+    not_if { Chef::VersionConstraint.new('>= 1.5.1').include?(node[:openstudio][:version]) }
   end
 else
   Chef::Log.warn("Installing from a #{node['platform_family']} installer is not yet not supported by this cookbook")

@@ -1,5 +1,8 @@
 # CHANGELOG for openstudio
 
+## Unreleased
+* Do not symlink the x86_64 directory for OpenStudio versions greater than 1.5.1
+
 ## 0.2.3:
 * Use Ubuntu 14.04 in Vagrant file
 * Remove semantic gem in favor of Chef::VersionConstraint
