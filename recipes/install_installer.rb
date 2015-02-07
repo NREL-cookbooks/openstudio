@@ -73,7 +73,7 @@ if platform_family?('debian')
 
   # This may no longer be needed in OpenStudio 1.5.1 or greater. Need to verify how this breaks older versions.
   execute 'symlink-openstudio-directories' do
-    command 'cd /usr/local/lib/ruby/site_ruby/2.0.0/ && ln -sf x86_64-linux lib'
+    command 'cd /usr/local/lib/site_ruby/2.0.0/ && ln -sf x86_64-linux lib'
 
     action :nothing
     not_if { Chef::VersionConstraint.new('>= 1.5.1').include?(node[:openstudio][:version]) }
