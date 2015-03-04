@@ -4,16 +4,11 @@
 # Recipe:: install_installer
 #
 
-# install some extra packages to make this work right.
-case node['platform_family']
-  when 'debian'
-    include_recipe 'apt'
-    include_recipe 'gdebi'
-  when 'rhel'
-  #
-end
-
 if platform_family?('debian')
+  # install some extra packages to make this work right.
+  include_recipe 'apt'
+  package 'gdebi-core"'
+
   # get some high level variables
   src_path = ''
   filename = ''
@@ -47,7 +42,7 @@ if platform_family?('debian')
       Chef::Log.info("OpenStudio is installed command #{is_installed_command}")
     end
     notifies :create, "remote_file[#{file_path}]", :immediately
-    notifies :install, 'gdebi_package[openstudio]', :immediately
+    notifies :install, 'execute[openstudio]', :immediately
     notifies :run, 'execute[symlink-openstudio-directories]', :immediately
 
     action :run
@@ -64,9 +59,8 @@ if platform_family?('debian')
     not_if { already_downloaded }
   end
 
-  # use gdebi to install dependencies
-  gdebi_package 'openstudio' do
-    source file_path
+  execute 'openstudio' do
+    command "gdebi -n -q #{file_path}"
 
     action :nothing
   end
