@@ -24,7 +24,7 @@ Vagrant.configure('2') do |config|
       openstudio: {
         # 1.5.1.0c740efe7c
         # 1.5.5.f6ccda50f0
-	      # 1.6.0.9ebfb81bd3
+        # 1.6.0.9ebfb81bd3
         version: '1.6.0',
         install_method: 'installer',
         installer: {

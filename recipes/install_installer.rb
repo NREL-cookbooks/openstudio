@@ -7,7 +7,7 @@
 if platform_family?('debian')
   # install some extra packages to make this work right.
   include_recipe 'apt'
-  package 'gdebi-core"'
+  package 'gdebi-core'
 
   # get some high level variables
   src_path = ''
