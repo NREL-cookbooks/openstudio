@@ -42,7 +42,7 @@ if platform_family?('debian')
       Chef::Log.info("OpenStudio is installed command #{is_installed_command}")
     end
     notifies :create, "remote_file[#{file_path}]", :immediately
-    notifies :install, 'execute[openstudio]', :immediately
+    notifies :run, 'execute[openstudio]', :immediately
     notifies :run, 'execute[symlink-openstudio-directories]', :immediately
 
     action :run
