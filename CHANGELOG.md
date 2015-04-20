@@ -1,5 +1,11 @@
 # CHANGELOG for openstudio
 
+## 0.2.6
+* Support for EnergyPlus 8.3 when using OpenStudio 1.7.2 or greater
+
+## 0.2.5
+
+
 ## 0.2.4: 
 * Do not symlink the x86_64 directory for OpenStudio versions greater than 1.5.1
 
