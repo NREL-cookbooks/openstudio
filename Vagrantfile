@@ -25,10 +25,10 @@ Vagrant.configure('2') do |config|
         # 1.5.1.0c740efe7c
         # 1.5.5.f6ccda50f0
         # 1.6.0.9ebfb81bd3
-        version: '1.6.0',
+        version: '1.7.5',
         install_method: 'installer',
         installer: {
-          version_revision: '9ebfb81bd3'
+          version_revision: '24e09a7180'
         }
       }
     }
@@ -38,3 +38,4 @@ Vagrant.configure('2') do |config|
     ]
   end
 end
+

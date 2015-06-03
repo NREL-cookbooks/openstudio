@@ -14,12 +14,16 @@ end
 include_recipe 'openstudio::ruby' unless node[:openstudio][:skip_ruby_install]
 
 # override version of energyplus based on the openstudio version
-if Chef::VersionConstraint.new('>= 1.5.4').include?(node[:openstudio][:version])
+if Chef::VersionConstraint.new('>= 1.7.2').include? node[:openstudio][:version]
+  node.default[:energyplus][:long_version] = '8.3.0'
+  node.default[:energyplus][:git_tag] = 'v8.3.0'
+  node.default[:energyplus][:sha] = '6d97d074ea'
+elsif Chef::VersionConstraint.new('>= 1.5.4').include? node[:openstudio][:version]
   node.default[:energyplus][:version] = '820009'
   node.default[:energyplus][:long_version] = '8.2.0'
   node.default[:energyplus][:git_tag] = 'v8.2.0-Update-1.2'
   node.default[:energyplus][:sha] = '8397c2e30b'
-elsif Chef::VersionConstraint.new('>= 1.3.2').include?(node[:openstudio][:version])
+elsif Chef::VersionConstraint.new('>= 1.3.2').include? node[:openstudio][:version]
   node.default[:energyplus][:version] = '810009'
   node.default[:energyplus][:long_version] = '8.1.0'
 else
